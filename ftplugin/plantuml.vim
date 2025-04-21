@@ -13,6 +13,10 @@ if !exists('g:plantuml_executable_script')
   let g:plantuml_executable_script='plantuml'
 endif
 
+if !exists('g:rsvg_convert_executable_script')
+  let g:rsvg_convert_executable_script='rsvg-convert'
+endif
+
 if exists('loaded_matchit')
   let b:match_ignorecase = 0
   let b:match_words =
@@ -28,7 +32,7 @@ if exists('loaded_matchit')
 endif
 
 if get(g:, 'plantuml_set_makeprg', 1)
-  let &l:makeprg=g:plantuml_executable_script . ' %'
+  let &l:makeprg = g:plantuml_executable_script . ' -tsvg % && ' . rsvg_convert_executable_script . ' -f pdf -o ' . expand('%:r') . '.pdf ' . expand('%:r') . '.svg'
   let &l:errorformat='Error\ line %l in file: %f,%Z%m'
 endif
 
